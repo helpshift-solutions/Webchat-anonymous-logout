@@ -1,4 +1,4 @@
-# Webchat-anonymous-logout
+# Webchat Anonymous Logout
 **A single HTML page to logout anonymous users in Helpshift Webchat.**
 
 By default, Helpshift doesn't log out anonymous users and CORS prevents deleting cookies from other domains. The JS on this page creates a cookie containing a random GUID that is used as the userID in Helpshift. The cookie expires after the Helpshift conversation ends or after 20 minutes. Right now the page is set to automatically refresh after 30 minutes. In normal use cases this will remove the previous conversation from view after the user refreshes the page or leaves the browser. 

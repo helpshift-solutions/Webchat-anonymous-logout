@@ -1,0 +1,88 @@
+
+<!doctype html>
+<html>
+<head>
+  <!-- REFRESH PAGE EVERY 30 Minutes-->
+  <meta http-equiv="refresh" content="1800" >
+
+	<meta charset="UTF-8" />
+	<title>Web Chat</title>
+	<script>
+    
+    //check if cookie is valid, else create a new one that lasts 20 minutes
+    if (getCookie("domain.helpshift.com")){
+      console.log("Cookie Detected")
+    }else{
+      console.log("set new cookie")
+      guid = uuidv4();
+      setCookie("domain.helpshift.com",guid,20);
+    }
+     //Call Helpshift Widget 
+    (function () {
+        var PLATFORM_ID = "YOUR_PLATFORM_ID",
+        DOMAIN = "YOUR_DOMAIN",
+        LANGUAGE = "en"
+
+        window.helpshiftConfig = {
+          platformId: PLATFORM_ID,
+          domain: DOMAIN,
+          language: LANGUAGE,
+          userId: getCookie("domain.helpshift.com"),
+          clearAnonymousUserOnLogin: true
+          //userAuthToken: "" //Please implement user idendity verification, otherwise all that is needed to login is the plain text value from the cookie
+          //https://developers.helpshift.com/web-chat/users/#configuring-identity-verification
+        };
+      }) ();
+
+
+  !function(t,e){if("function"!=typeof window.Helpshift){var n=function(){n.q.push(arguments)};n.q=[],window.Helpshift=n;var i,a=t.getElementsByTagName("script")[0];if(t.getElementById(e))return;i=t.createElement("script"),i.async=!0,i.id=e,i.src="https://webchat.helpshift.com/webChat.js";var o=function(){window.Helpshift("init")};window.attachEvent?i.attachEvent("onload",o):i.addEventListener("load",o,!1),a.parentNode.insertBefore(i,a)}else window.Helpshift("update")}(document,"hs-chat");
+
+Helpshift("open");
+
+//CREATES A GUID - THIS IS FOR DEMO ONLY - YOU SHOULD DO THIS ON THE BACKEND 
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
+//Functions to set, get and clear cookies 
+function setCookie(name,value,minutes) {
+    var expires = "";
+    if (minutes) {
+        var date = new Date();
+        date.setTime(date.getTime() + (minutes*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+function eraseCookie(name) {   
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    storage.clear();
+}
+
+//Deletes cookie after conversation is finished - so a page refresh will clear the conversation 
+var conversationEndEventHandler = function() {
+  console.log("Conversation has ended.");
+  eraseCookie("domain.helpshift.com")
+}
+Helpshift("addEventListener", "conversationEnd", conversationEndEventHandler);
+
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body style="margin:0px">
+  
+</body>
+</html>

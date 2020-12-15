@@ -69,7 +69,7 @@ function getCookie(name) {
 }
 function eraseCookie(name) {   
     document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    storage.clear();
+    localStorage.clear()
 }
 
 //Deletes cookie after conversation is finished - so a page refresh will clear the conversation 

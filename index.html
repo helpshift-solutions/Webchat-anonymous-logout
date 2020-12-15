@@ -19,9 +19,9 @@
     }
      //Call Helpshift Widget 
     (function () {
-        var PLATFORM_ID = "YOUR_PLATFORM_ID",
-        DOMAIN = "YOUR_DOMAIN",
-        LANGUAGE = "en"
+        var PLATFORM_ID = "ted-demo_platform_20190221054551285-3ce6c0dab880c77",
+        DOMAIN = "ted-demo",
+        LANGUAGE = "en";
 
         window.helpshiftConfig = {
           platformId: PLATFORM_ID,
@@ -78,6 +78,12 @@ var conversationEndEventHandler = function() {
   eraseCookie("domain.helpshift.com")
 }
 Helpshift("addEventListener", "conversationEnd", conversationEndEventHandler);
+
+var conversationRejectedEventHandler = function() {
+  console.log("Conversation has ended.");
+  eraseCookie("domain.helpshift.com")
+}
+Helpshift("addEventListener", "conversationRejected", conversationRejectedEventHandler);
 
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
